@@ -1,0 +1,122 @@
+﻿
+@model IEnumerable<Warehouse_25DH110164.Models.Product>
+
+@{
+    ViewBag.Title = "Lọc và sắp xếp sản phẩm";
+}
+
+<h2>LỌC VÀ SẮP XẾP SẢN PHẨM</h2>
+
+<hr />
+
+@using (Html.BeginForm("Filter", "Product", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <label>Tên sản phẩm</label>
+            <input type="text"
+                   name="keyword"
+                   class="form-control"
+                   value="@ViewBag.Keyword"
+                   placeholder="Nhập tên sản phẩm..." />
+        </div>
+
+        <div class="col-md-3">
+            <label>Danh mục</label>
+            <select name="category" class="form-control">
+                <option value="">Tất cả danh mục</option>
+
+                @foreach (var item in ViewBag.Categories)
+                {
+                    <option value="@item"
+                            @(ViewBag.Category == item ? "selected" : "")>
+                        @item
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label>Sắp xếp</label>
+            <select name="sortOrder" class="form-control">
+                <option value="">Mặc định</option>
+                <option value="price_asc"
+                        @(ViewBag.SortOrder == "price_asc" ? "selected" : "")>
+                    Giá tăng dần
+                </option>
+                <option value="price_desc"
+                        @(ViewBag.SortOrder == "price_desc" ? "selected" : "")>
+                    Giá giảm dần
+                </option>
+                <option value="name_asc"
+                        @(ViewBag.SortOrder == "name_asc" ? "selected" : "")>
+                    Tên A - Z
+                </option>
+                <option value="name_desc"
+                        @(ViewBag.SortOrder == "name_desc" ? "selected" : "")>
+                    Tên Z - A
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label>&nbsp;</label>
+            <button type="submit"
+                    class="btn btn-primary form-control">
+                Lọc
+            </button>
+        </div>
+    </div>
+}
+
+<br />
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Mã sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Danh mục</th>
+            <th>Đơn giá</th>
+            <th>Số lượng</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductID</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Category</td>
+                    <td>
+                        @item.Price.ToString(
+                            "N0",
+                            System.Globalization.CultureInfo.GetCultureInfo("vi-VN")
+                        ) ₫
+                    </td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">
+                    Không tìm thấy sản phẩm phù hợp.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <strong>Số sản phẩm tìm thấy:</strong> @Model.Count()
+</p>
+
+<a href="@Url.Action("Index", "Product")"
+   class="btn btn-default">
+    Quay lại danh sách
+</a>

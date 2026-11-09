@@ -1,0 +1,104 @@
+﻿
+@model IEnumerable<Warehouse_25DH110164.Models.Product>
+
+@{
+    ViewBag.Title = "Quản lý kho hàng";
+}
+
+<h2>QUẢN LÝ KHO HÀNG</h2>
+
+<p>Danh sách sản phẩm hiện có trong hệ thống.</p>
+
+<hr />
+
+<div class="btn-group" style="margin-bottom:20px;">
+    <a href="@Url.Action("Index", "Product")" class="btn btn-default">
+        Câu 1 - Danh sách sản phẩm
+    </a>
+
+    <a href="@Url.Action("EditList", "Product")">
+        Câu 2 - Chỉnh sửa sản phẩm
+    </a>
+
+    <a href="@Url.Action("Filter", "Product")" class="btn btn-info">
+        Câu 3 - Lọc và sắp xếp
+    </a>
+
+    <a href="@Url.Action("Adjust", "Product")" class="btn btn-warning">
+        Câu 4 - Điều chỉnh giá
+    </a>
+
+    <a href="@Url.Action("Transaction", "Product")" class="btn btn-success">
+        Câu 5 - Giao dịch hai sản phẩm
+    </a>
+
+    <a href="@Url.Action("Create", "Product")" class="btn btn-danger">
+        Câu 6 - Thêm sản phẩm
+    </a>
+
+    <a href="@Url.Action("Stats", "Product")" class="btn btn-default">
+        Câu 7 - Thống kê
+    </a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Danh mục</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Mức giá</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductID</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Category</td>
+
+                    <td>
+                        @item.Price.ToString(
+                            "N0",
+                            System.Globalization.CultureInfo.GetCultureInfo("vi-VN")
+                        ) ₫
+                    </td>
+
+                    <td>@item.Quantity</td>
+
+                    <td>
+                        @if (item.Price < 100000)
+                        {
+                            <span class="label label-success">Thấp</span>
+                        }
+                        else if (item.Price < 500000)
+                        {
+                            <span class="label label-warning">Trung bình</span>
+                        }
+                        else
+                        {
+                            <span class="label label-danger">Cao</span>
+                        }
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("Edit", "Product", new { id = item.ProductID })"
+                           class="btn btn-primary btn-sm">
+                            Sửa
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p>
+    <strong>Tổng số sản phẩm:</strong> @Model.Count()
+</p>

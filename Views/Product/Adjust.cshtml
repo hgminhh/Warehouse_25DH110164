@@ -1,0 +1,72 @@
+﻿
+@using Warehouse_25DH110164.Models
+
+@{
+    ViewBag.Title = "Điều chỉnh giá sản phẩm";
+    var products = ViewBag.Products as IEnumerable<Product>;
+}
+
+<h2>ĐIỀU CHỈNH GIÁ BÁN SẢN PHẨM</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+        <br />
+        Giá mới: @TempData["NewPrice"] đ
+    </div>
+}
+
+@using (Html.BeginForm("Adjust", "Product", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label>Chọn sản phẩm</label>
+        <select name="ProductID" class="form-control" required>
+            <option value="">-- Chọn sản phẩm --</option>
+
+            @if (products != null)
+            {
+                foreach (var item in products)
+                {
+                    <option value="@item.ProductID"
+                            @(ViewBag.SelectedProductID != null && (int)ViewBag.SelectedProductID == item.ProductID ? "selected" : "")>
+                        @item.ProductName - @item.Price.ToString("N2") đ
+                    </option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Hình thức điều chỉnh</label>
+        <select name="adjustType" class="form-control" required>
+            <option value="">-- Chọn hình thức --</option>
+            <option value="Increase">Tăng giá</option>
+            <option value="Decrease">Giảm giá</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Tỷ lệ điều chỉnh (%)</label>
+        <input type="number"
+               name="percentage"
+               class="form-control"
+               step="0.01"
+               min="0.01"
+               placeholder="Nhập tỷ lệ phần trăm"
+               value="@ViewBag.Percentage"
+               required />
+    </div>
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <button type="submit" class="btn btn-primary">
+        Xác nhận điều chỉnh
+    </button>
+
+    <a href="@Url.Action("Index", "Product")" class="btn btn-secondary">
+        Quay lại
+    </a>
+}

@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Thống kê sản phẩm";
+}
+
+<h2>THỐNG KÊ GIÁ VÀ GIÁ TRỊ HÀNG HÓA</h2>
+
+<hr />
+
+<div class="card p-3 mb-3">
+    <h4>Tổng số sản phẩm</h4>
+    <h2>@ViewBag.TotalProducts</h2>
+</div>
+
+<div class="card p-3 mb-3">
+    <h4>Số sản phẩm thuộc mức Giá cao</h4>
+    <h2>@ViewBag.HighPriceCount</h2>
+    <p>Giá từ 500.000 đồng trở lên</p>
+</div>
+
+<div class="card p-3 mb-3">
+    <h4>Tổng giá trị tồn kho</h4>
+    <h2>@String.Format("{0:N0}", ViewBag.InventoryValue) VNĐ</h2>
+    <p>Tổng giá × số lượng của tất cả sản phẩm</p>
+</div>
+
+<hr />
+
+<a href="@Url.Action("Index", "Product")"
+   class="btn btn-primary">
+    Quay lại danh sách sản phẩm
+</a>

@@ -1,0 +1,86 @@
+﻿
+@model Warehouse_25DH110164.Models.Product
+
+@{
+    ViewBag.Title = "Chỉnh sửa sản phẩm";
+}
+
+<h2>CHỈNH SỬA SẢN PHẨM</h2>
+
+<hr />
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        Vui lòng kiểm tra lại thông tin nhập vào.
+    </div>
+}
+
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.ProductID)
+
+    <div class="form-group">
+        <label>Mã sản phẩm</label>
+        <input type="text"
+               class="form-control"
+               value="@Model.ProductID"
+               readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Tên sản phẩm</label>
+        @Html.TextBoxFor(model => model.ProductName,
+            new { @class = "form-control", placeholder = "Nhập tên sản phẩm" })
+
+        @Html.ValidationMessageFor(model => model.ProductName,
+            "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Danh mục</label>
+        @Html.TextBoxFor(model => model.Category,
+            new { @class = "form-control", placeholder = "Nhập danh mục" })
+
+        @Html.ValidationMessageFor(model => model.Category,
+            "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Đơn giá (VNĐ)</label>
+        @Html.TextBoxFor(model => model.Price,
+            new
+                 {
+                @class = "form-control",
+                type = "number",
+                min = "1",
+                step = "1000"
+            })
+
+        @Html.ValidationMessageFor(model => model.Price,
+            "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Số lượng</label>
+        <input type="text"
+               class="form-control"
+               value="@Model.Quantity"
+               readonly />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">
+        <span class="glyphicon glyphicon-floppy-disk"></span>
+        Lưu thay đổi
+    </button>
+
+    <a href="@Url.Action("EditList", "Product")"
+       class="btn btn-default">
+        <span class="glyphicon glyphicon-arrow-left"></span>
+        Quay lại
+    </a>
+}

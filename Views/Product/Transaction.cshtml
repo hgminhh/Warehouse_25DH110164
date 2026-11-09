@@ -1,0 +1,103 @@
+﻿
+@using Warehouse_25DH110164.Models
+
+@{
+    ViewBag.Title = "Giảm giá hai sản phẩm";
+    var products = ViewBag.Products as IEnumerable<Product>;
+}
+
+<h2>GIẢM GIÁ HAI SẢN PHẨM TRONG MỘT GIAO DỊCH</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+        <br />
+        @TempData["Result1"]
+        <br />
+        @TempData["Result2"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@using (Html.BeginForm("Transaction", "Product", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <h4>SẢN PHẨM A</h4>
+
+    <div class="form-group">
+        <label>Chọn sản phẩm A</label>
+        <select name="ProductID1" class="form-control" required>
+            <option value="">-- Chọn sản phẩm A --</option>
+
+            @if (products != null)
+            {
+                foreach (var item in products)
+                {
+                    <option value="@item.ProductID"
+                            @(ViewBag.ProductID1 != null && (int)ViewBag.ProductID1 == item.ProductID ? "selected" : "")>
+                        @item.ProductName - @item.Price.ToString("N2") đ
+                    </option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Tỷ lệ giảm A (%)</label>
+        <input type="number" name="Percent1"
+               class="form-control" step="0.01"
+               min="0.01" max="99.99"
+               value="@ViewBag.Percent1"
+               placeholder="Nhập tỷ lệ giảm A" required />
+    </div>
+
+    <hr />
+
+    <h4>SẢN PHẨM B</h4>
+
+    <div class="form-group">
+        <label>Chọn sản phẩm B</label>
+        <select name="ProductID2" class="form-control" required>
+            <option value="">-- Chọn sản phẩm B --</option>
+
+            @if (products != null)
+            {
+                foreach (var item in products)
+                {
+                    <option value="@item.ProductID"
+                            @(ViewBag.ProductID2 != null && (int)ViewBag.ProductID2 == item.ProductID ? "selected" : "")>
+                        @item.ProductName - @item.Price.ToString("N2") đ
+                    </option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Tỷ lệ giảm B (%)</label>
+        <input type="number" name="Percent2"
+               class="form-control" step="0.01"
+               min="0.01" max="99.99"
+               value="@ViewBag.Percent2"
+               placeholder="Nhập tỷ lệ giảm B" required />
+    </div>
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <button type="submit" class="btn btn-primary">
+        Xác nhận giảm giá
+    </button>
+
+    <a href="@Url.Action("Index", "Product")"
+       class="btn btn-secondary">
+        Quay lại
+    </a>
+}

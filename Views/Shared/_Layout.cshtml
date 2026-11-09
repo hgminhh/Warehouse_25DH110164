@@ -1,0 +1,129 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Warehouse Management</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        body {
+            margin: 0;
+            background: #f4f6f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background: #17365d;
+            color: white;
+            padding: 20px 30px;
+        }
+
+            .header h2 {
+                margin: 0 0 8px 0;
+            }
+
+        .main {
+            display: flex;
+            min-height: 550px;
+        }
+
+        .sidebar {
+            width: 230px;
+            background: #263b55;
+            padding: 20px;
+        }
+
+            .sidebar h4 {
+                color: white;
+                margin-bottom: 20px;
+            }
+
+            .sidebar a {
+                display: block;
+                color: white;
+                text-decoration: none;
+                padding: 12px;
+                margin-bottom: 7px;
+                border-radius: 5px;
+            }
+
+                .sidebar a:hover {
+                    background: #42658c;
+                }
+
+        .content {
+            flex: 1;
+            padding: 30px;
+            background: white;
+            margin: 20px;
+            border-radius: 8px;
+        }
+
+        .footer {
+            background: #17365d;
+            color: white;
+            text-align: center;
+            padding: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h2>WAREHOUSE MANAGEMENT</h2>
+        <div>Họ tên: Nguyễn Ngọc Quỳnh Như</div>
+        <div>MSSV: 25DH110164</div>
+    </div>
+
+    <div class="main">
+        <div class="sidebar">
+            <h4>CHỨC NĂNG</h4>
+
+            <a href="@Url.Action("Index", "Product")">
+                Câu 1 - Danh sách sản phẩm
+            </a>
+
+            <a href="@Url.Action("Index", "Product")#edit">
+                Câu 2 - Chỉnh sửa sản phẩm
+            </a>
+
+            <a href="@Url.Action("Index", "Product")#filter">
+                Câu 3 - Lọc và sắp xếp
+            </a>
+
+            <a href="@Url.Action("Index", "Product")#adjust">
+                Câu 4 - Điều chỉnh giá
+            </a>
+
+            <a href="@Url.Action("Index", "Product")#transaction">
+                Câu 5 - Giao dịch hai sản phẩm
+            </a>
+
+            <a href="@Url.Action("Index", "Product")#create">
+                Câu 6 - Thêm sản phẩm
+            </a>
+
+            <a href="@Url.Action("Index", "Product")#stats">
+                Câu 7 - Thống kê
+            </a>
+        </div>
+
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+
+    <div class="footer">
+        Sinh viên: Nguyễn Ngọc Quỳnh Như |
+        Ngày sinh: 14/06/2007
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
